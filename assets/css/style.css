@@ -1,0 +1,17 @@
+#header{
+    background-size: cover;
+    background-position-y: 40%;
+    color: white;
+    background-color: #535353;
+    position: relative;
+
+}
+
+#header h1 {
+    font-size: 400%;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+
+}
+
