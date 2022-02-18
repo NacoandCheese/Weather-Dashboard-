@@ -1,68 +1,38 @@
-function initPage() {
-    const cityEl = document.getElementById("enter-city");
-    const searchEl = document.getElementById("search-button");
-    const clearEl = document.getElementById("clear-history");
-    const nameEl = document.getElementById("city-name");
-    const currentTempEl = document.getElementById("temperature");
-    const currentHumidityEl = document.getElementById("humidity");
-    const currentWindEl = document.getElementById("wind-speed");
-    const currentUVEl = document.getElementById("UV-index");
-    const historyEl = document.getElementById("history");
-    const fivedayEl = document.getElementById("fiveday-header");
-    const todayweatherEl = document.getElementById("today-weather");
+var cityName = document.getElementById("enter-city")
+console.log("city", cityName)
+var searchButton = document.getElementById("search-button")
+searchButton.addEventListener("click", function() {
+    //get text of our input field
+    // console.log(cityName.value);
 
-    let searchHistory = JSON.parse(localStorage.getItem("search")) || [];
+    // add data to the even listener by fetching with api
+    //gets LAT and LON for city input
+    fetch ('http://api.openweathermap.org/geo/1.0/direct?q=' + cityName.value + '&appid=2d092163794fc6f4624b18ac257ab93a')
+        .then(response => response.json())
+        .then(data => {
+            var lat = data[0].lat
+            var lon = data[0].lon
 
+            //now that we have lat and lon for our city, make another api call for the weather forecast for that city
+            fetch (`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${apiKey}&units=imperial`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("TODAY'S WEATHER DATAd", data);
 
+                    // use data returned from API call and put data into HTML
 
-    const apiKey = "2d092163794fc6f4624b18ac257ab93a";
+                    //start with city as an example
+                    var city = document.querySelector('#city')
+                    city.innerHTML = cityName.value
+                    var temp = docoment.querySelector('#temp')
+                    city.innerHTML = data.current.temp
+                   
+                    
+                    // temperature will be: data.current.temp
+                });
+        });
 
-    function getWeather(cityName) {
+})
+console.log("button clicked", searchButton)
 
-        let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "appid=" + apiKey;
-        axios.get(queryURL)
-        .then(function (response) {
-
-            todayweatherEl.classList.remove("d-none");
-
-            const currentDate = new Date(response.data.dt * 1000);
-            const day = currentDate.getDate();
-            const month = getMonth(); + 1;
-            const year = currentDate.getFullYear();
-            nameEl.innerHTML = response.data.name + " (" + month + "/" + day + "/" + year + ") ";
-
-
-            //Get UV index
-            let lat = response.data.coord.lat;
-            let lon = response.data.coord.lonl;
-            let UVQueryURL = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon" + lon + "&appid=" + apiKey +"&cnt=1";
-            axios.get(UVQueryURL)
-            .then(function (response) {
-                let UVindex = document.createElement("span");
-                
-            })
-        })
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-}
-// var apiKey = "2d092163794fc6f4624b18ac257ab93a"
-// var cityName = document.querySelector
-
-// fetch ('http://api.openweathermap.org/geo/1.0/direct?q=' + cityName + '&appid=2d092163794fc6f4624b18ac257ab93a')
-//     .then(response => response.json())
-//     .then(data => {
-//         lat = data[0].lat
-//         lon = data[0].lon
-//         console.log(data);
-//     });
+var apiKey = "2d092163794fc6f4624b18ac257ab93a"
