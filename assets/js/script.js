@@ -17,15 +17,15 @@ searchButton.addEventListener("click", function() {
             fetch (`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${apiKey}&units=imperial`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log("TODAY'S WEATHER DATAd", data);
+                    console.log("TODAY'S WEATHER DATA", data);
 
                     // use data returned from API call and put data into HTML
 
                     //start with city as an example
                     var city = document.querySelector('#city')
                     city.innerHTML = cityName.value
-                    var temp = docoment.querySelector('#temp')
-                    city.innerHTML = data.current.temp
+                    var temp = document.querySelector('#temp')
+                    temp.innerHTML.data.current.temp
                    
                     
                     // temperature will be: data.current.temp
